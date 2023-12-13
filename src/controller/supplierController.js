@@ -1,12 +1,13 @@
 const Supplier = require('../schemas/supplier');
 
+
 // Controlador para listar todos os Fornecedores
 const listSupplier = async (req, res) => {
   try {
-    const suppliers = await Supplier.find();
-    return res.json(suppliers);
+    const suppliers = await Supplier.find().sort({ isFavorite: -1 }); // Ordena por favoritos primeiro
+    return res.json({ success: true, data: suppliers });
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao buscar Fornecedor.' });
+    return res.status(500).json({ success: false, error: 'Erro ao buscar Fornecedor.' });
   }
 };
 
@@ -25,19 +26,23 @@ const createSupplier = async (req, res) => {
 
 // Controlador para atualizar um Fornecedor por ID
 const updateSupplier = async (req, res) => {
-  const {name, email, telephone, supplierType, observation } = req.body;
+  const { name, email, telephone, supplierType, observation, isFavorite } = req.body;
   const supplierId = req.params.id;
 
   try {
-    const supplier = await Supplier.findByIdAndUpdate(supplierId, { name, email, telephone, supplierType, observation}, { new: true });
-    
-    if (!supplier) {
-      return res.status(404).json({ message: 'Fornecedor não encontrado.' });
+    const updatedSupplier = await Supplier.findByIdAndUpdate(
+      supplierId,
+      { name, email, telephone, supplierType, observation, isFavorite },
+      { new: true }
+    );
+
+    if (!updatedSupplier) {
+      return res.status(404).json({ success: false, message: 'Fornecedor não encontrado.' });
     }
 
-    return res.json(supplier);
+    return res.json({ success: true, data: updatedSupplier });
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao atualizar Fornecedor.' });
+    return res.status(500).json({ success: false, error: 'Erro ao atualizar Fornecedor.', detailedError: error.message });
   }
 };
 
@@ -66,4 +71,3 @@ module.exports = {
   updateSupplier,
   deleteSupplier
 };
-

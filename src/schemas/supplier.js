@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const moongose = require("mongoose");
 
-const supplierSchema = new mongoose.Schema({
+const supplierSchema = new moongose.Schema({
   name: {
     type: String,
     required: true,
@@ -20,9 +20,13 @@ const supplierSchema = new mongoose.Schema({
   observation: {
     type: String,
   },  
+  isFavorite: {
+    type: Boolean,
+    default: false,
+  },
 },
 )
 
-const Supplier = mongoose.model('Supplier', supplierSchema);
+const Supplier = moongose.model('Supplier', supplierSchema);
 
 module.exports = Supplier; 
