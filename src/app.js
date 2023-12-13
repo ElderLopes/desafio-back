@@ -1,11 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const routes = require('./routes');
-require('./database');
+import express from 'express';
+import bodyParser from 'body-parser';
+import routes from './routes';
+import './database';
 
 class App {
   constructor() {
     this.app = express();
+    this.middlewares();
     this.routes();
   }
 
@@ -19,4 +20,4 @@ class App {
   }
 }
 
-module.exports = new App().app;
+export default new App().app;
