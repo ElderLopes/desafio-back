@@ -10,7 +10,7 @@ const supplierSchema = new moongose.Schema({
     required: true,
   },
   telephone: {
-    type: String,
+    type: [String],
     required: true,
   },
   supplierType: {

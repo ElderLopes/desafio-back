@@ -9,7 +9,6 @@ const cors = require('cors');
 const port = 3001;
 
 
-// Middlewares para fazer o parser do corpo da requisição
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
